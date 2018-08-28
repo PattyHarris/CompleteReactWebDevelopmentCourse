@@ -28,7 +28,9 @@ const user = {
     // The 'functiion' cannot be replaced with () => since the 'this'
     // (e.g. this.cities) will be undefined - the new syntax replaces
     // printPlacesLived: function() {
-    // with
+    // with - again, this is the NEW ES6 object method defnition syntax -
+    // see this in the tutorial about 10:38 in the video.
+    
     printPlacesLivedForEach() {
 
         // In a regular anonymous function, there is no bound 'this'
