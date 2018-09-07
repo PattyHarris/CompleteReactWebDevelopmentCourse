@@ -185,3 +185,41 @@ constructor(props) {
 ```
 
 ## Adding state to the Counter App, Part 1
+
+1. Take the Counter example app in the playground and either comment it all out or copy it to another file (which I did).   Point the babel terminal to this new file.
+
+2. Step 1: Create a new component to render the h1 element and buttons.  The Counter component will render the h1 and buttons as before, except that the count amount will come from state.
+
+3. Challenge is to create 3 methods to handle the button clicks, log that the buttons have been clicked, and bind the buttons in component constructor.
+
+## Adding state to the Counter App, Part 1
+
+1. In this section we'll go through the above 5 steps to add state to the app.
+
+2. Default state object: set count to 0 (step 1 and step 2) - set in the constructor where the state object is set with the counter attribute.  Use this.state in the h1 element tag as an expression.
+
+3. Steps 3-5 is to wire up a button to change state.  If you try to change state directly, e.g. this.state.count++, you will see that the value of count does increase, but it does not cause the component to re-render.  You need to use setState() to update the state object.  setState takes a function that returns an object.  There is a input parameter that you can name anything, in our case, we named it prevState - that allows access to the previous state object before it's changed.
+
+4. If your state object has multiple attributes, you don't need to set all of them in setState.
+
+5. Challenge is to wire up handleMinuesOne.
+
+6. Lastly, wire up handleReset by calling setState where no prevState is needed.
+
+## Alternative setState syntax
+
+1. The older and obsolete syntax is/was to pass in an object to setState.  This is not the preferred method and may go away permanently at some point.
+
+2. this.setState is asynchronous, so in the following lines, this.state.count refers to the old value, not count = 0;
+```
+this.setState( {
+    count: 0
+    });
+this.setState( {
+    count: this.state.count  + 1
+    })
+```
+
+# Build It: Adding State to VisibilityToggle
+
+1. Challenge is to add state to the VisibilityToggle app.
