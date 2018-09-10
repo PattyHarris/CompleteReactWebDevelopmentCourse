@@ -220,6 +220,30 @@ this.setState( {
     })
 ```
 
-# Build It: Adding State to VisibilityToggle
+## Build It: Adding State to VisibilityToggle
 
 1. Challenge is to add state to the VisibilityToggle app.
+
+## Indecision State, Part 1
+
+1. Rework the Indecision App to use state, starting with adding the constructor.  Add the state object that includes the options array.  Reference this array instead of the local options array - adding the dummy data to the state version for initial testing.
+
+2. Actions shows the button when there are options available.  We could pass the entire array to Actions, but all it really needs is a bool indicating there are options available. - see the 'hasOptions' attribute.
+
+3. When state changes in the child, we need a way to pass the state change to the parent.  To handle this, we will pass functions as props (e.g. callback functions).  See handleDeleteOptions.  Challenge is to repeat the changes for handleDeleteOptions for handlePick.  We'll use the onMakeDecision from jsx-indecision.js and the current handlePick method inside Actions can be removed..
+
+## Indecision State, Part 2
+
+1. Here we will pass data upstream.  Last time we used a callback function as a prop to allow children to change the state of the parent.  See handleAddOption.
+
+2. In the case of handleAddOption, we call it within a separate class method since extra steps are needed to obtain and check the data on the form before we call the function.  To do so, we also needed to bind the local handleAddOption method, which means the addition of a constructor.
+
+3. You can't use 'push' to add the option on the state options since this would change the state directly - instead we need to create a new array - use concat instead.
+
+4. Added validation to handleAddOption in IndecisionApp and then handle those errors by adding state to the AddOption component.  By default, error = undefined.  This is also the case if there is no error, since in that case, handleAddOption in IndecisionApp doesn't return anything.
+
+
+## Summary - Props vs State
+
+1. Nothing new here.
+End of this section.

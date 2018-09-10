@@ -1,18 +1,72 @@
 
 class IndecisionApp extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
+        this.handlePick = this.handlePick.bind(this);
+        this.handleAddOption = this.handleAddOption.bind(this);
+
+        this.state = {
+            options: []
+        };
+    }
+
+    // Callback function used to remove all the options.
+    handleDeleteOptions() {
+        this.setState( () => {
+            return {
+                options: []
+            };
+        });
+    }
+
+    // Callback function to randomly pick an option
+    handlePick() {
+        const randomNumber = Math.floor(Math.random() * this.state.options.length);
+        const option = this.state.options[randomNumber];
+    }
+
+    // Callback function that also takes a parameter.  Note the use of
+    // concat instead of push, since we can't change state directly - we
+    // need to create a new array.
+    handleAddOption(option) {
+        // Check for empty string, returning the error back to Add Option.
+        if (!option) {
+            return 'Enter valid value to add item.'
+        }
+        else if (this.state.options.indexOf(option) > -1) {
+            // Make sure the string is unique in the array.
+            return 'This option already exists.'
+        }
+
+        this.setState( (prevState) => {
+            return {
+                options: prevState.options.concat([option])
+            }
+        })
+    }
+
     render() {
 
         const title = "Indecision";
         const subtitle = "Put your life in the hands of a computer";
-        const options = ['Thing one', 'Thing two', 'Thing four' ];
 
         return (
             <div>
                 <Header  title={title} subtitle={subtitle} />
-                <Action />
-                <Options options={options} />
-                <AddOption />
+                <Action
+                    hasOptions={this.state.options.length > 0}
+                    handlePick={this.handlePick}
+                />
+                <Options
+                    options={this.state.options}
+                    handleDeleteOptions={this.handleDeleteOptions}
+                />
+                <AddOption
+                    handleAddOption={this.handleAddOption}
+                />
             </div>
         );
     }
@@ -30,32 +84,27 @@ class Header extends React.Component {
 }
 
 class Action extends React.Component {
-    handlePick() {
-        alert("handlePick button clicked.")
-    }
+
     render() {
         return (
             <div>
-                <button onClick={this.handlePick}>What should I do?</button>
+                <button
+                    onClick={this.props.handlePick}
+                    disabled={!this.props.hasOptions}
+                >
+                    What should I do?
+                </button>
             </div>
         );
     }
 }
 
 class Options extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleRemoveAll = this.handleRemoveAll.bind(this);
-    }
-
-    handleRemoveAll() {
-        console.log(this.props.options);
-    }
 
     render() {
         return (
             <div>
-                <button onClick={this.handleRemoveAll}>Remove All</button>
+                <button onClick={this.props.handleDeleteOptions}>Remove All</button>
                 {
                     /*  Return isn't really needed since there's just one statement...*/
                     this.props.options.map( (option)  => {
@@ -80,6 +129,15 @@ class Option extends React.Component {
 
 class AddOption extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.handleAddOption = this.handleAddOption.bind(this);
+
+        this.state = {
+            error: undefined
+        }
+    }
+
     handleAddOption (e)  {
         // Prevents full page refresh.
         e.preventDefault();
@@ -87,30 +145,36 @@ class AddOption extends React.Component {
         // Access the value entered - target is the form element which
         // has access to elements - each is accessed by name, in this case,
         // we gave the input name="option".
-        const option = e.target.elements.option.value.trim;
+        const option = e.target.elements.option.value.trim();
 
-        // Strings have 'falsey' properties, so you can check their existence.
-        if (option) {
-            // For the challenge, we need to send an alert.
-            alert("Form submitted.");
+        // The parent component returns an error string if the option
+        // is empty or already exists.
+        const error = this.props.handleAddOption(option);
 
-            // Add the option to the array and clear the input field.
-            // Re-render the list of items.
-            // app.options.push(option);
-            // e.target.elements.option.value = '';
-            // renderApp();
-        }
+        // If the name of the state value is the same as the new
+        // value, e.g. error: error, you can just use 'error'.   So,
+        // this is the same as below:
+        // this.setState( () => {
+        //     return {
+        //         error: error
+        //     };
+        // });
+        this.setState( () => {
+            return { error };
+        });
+
     };
 
     render() {
         return (
             <div>
+                { this.state.error && <p>{this.state.error}</p>}
                 <form onSubmit={this.handleAddOption}>
                     <input type="text" name="option" />
                     <button>Add Option</button>
                 </form>
             </div>
-        )
+        );
     }
 }
 
