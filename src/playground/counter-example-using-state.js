@@ -7,7 +7,7 @@ class Counter extends React.Component {
         this.handleReset = this.handleReset.bind(this);
 
         this.state = {
-            count: 0
+            count: props.count
         };
     }
 
@@ -46,6 +46,12 @@ class Counter extends React.Component {
             </div>
         );
     }
+} // End of Counter
+
+// Challenge - add default props.  If a value is passed in, as below,
+// it is used.  Otherwise, 0 is output as the default.
+Counter.defaultProps = {
+    count: 0
 }
 
-ReactDOM.render(<Counter />, document.getElementById('app'));
+ReactDOM.render(<Counter count={25}/>, document.getElementById('app'));
