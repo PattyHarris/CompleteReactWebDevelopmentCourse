@@ -150,6 +150,14 @@ This replaces the current page, with a blank page (with a 'p' tag);
 
 ## Saving and Loading the counter
 
-1. Here we're adding lifecycle and localStorage to the Count app.
+1. Here we're adding lifecycle and localStorage to the Counter app.
 
-2. We don't need to make use of stringify or parse, since we're not working with an array object, but we do need to use parseInt to convert the string into a number, e.g. parseInt('12', 10).  Note that if the string doesn't represent a valid number, parseInt will return NaN (not a number).  To check for NaN, use the function, isNaN.
+2. We don't need to make use of stringify or parse, since we're not working with an array object, but we do need to use parseInt to convert the string into a number, e.g. parseInt('12', 10).  Note that if the string doesn't represent a valid number, parseInt will return NaN (not a number).  To check for NaN, use the function, isNaN - e.g.
+```
+> isNaN("abc" * 2)
+< true
+```
+
+3. At this point, we removed the default props.options in the IndecisionApp setState, changing this to an empty array (since we are now using localStorage).  the defaultProps method for IndecisionApp is no longer needed either.   We'll repeat the same for the Counter app.
+
+4.
