@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "babel-cli": "^6.24.1",
     "babel-preset-env": "^1.5.2",
-    "babel-preset-react": "^6.24.1"
+    "babel-preset-react": "^6.24.1",
+    "live-server": "^1.2.0",
+    "webpack": "^3.1.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "live-server public --browser='google chrome'",
+    "build": "webpack --watch",
+    "build -babel": "src/app.js --out-file=public/scripts/app.js --presets=env,react --watch"
   },
   "author": "Patty Harris",
   "license": "ISC"
