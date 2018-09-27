@@ -189,3 +189,64 @@ export default subtract;
 6. Challenge is to add a default function isSenior(age) to the person.js, import it in app.js, output the call to the console.
 
 ## Importing npm Modules
+
+1. Install -> import -> use
+
+2. Install the npm module validator (as a way to test this process).  I used npm to install... We will use the isEmail function from this module.
+```
+npm install validator@8.0.0
+```
+
+3. Working with third party modules - check the npm documentation for that module for how to import and which functions you can use (not always easy to find).  Note that the 'require' statement is ES5 and used by node.js.  ES6 and webpack uses 'import'.
+
+4. No relative path is needed since when you just supply the name, webpack assumes the module lives in the node_modules folder.
+
+5. As I suspected, app.js is cleared and the import for 'validator' is added.  Note that webpack only includes modules in the build if you use them - that is, if you import a module and don't use it, it won't be included in the bundle.
+
+6.  Removing the validator code from app.js and now installing react and react-dom - I needed react-dom@16.0.1 due a vulnerability issue.
+```
+npm install react@16.0.0 react-dom@16.0.1
+```
+
+7. If you attempt to render HTML as we did before, it will fail since we haven't hooked up babel to compile the JSX to JS, e.g. this fails:
+```
+const template = <p>testing 123</p>;
+ReactDom.render(template, document.getElementById('app'));
+```
+
+As you recall, when this is compiled by babel, it turned into this, which does work:
+```
+const template = React.createElement('p', {}, 'testing 123');
+ReactDom.render(template, document.getElementById('app'));
+```
+
+## Setting up Babel with Webpack
+
+1. loader: lets you customize the behavior of webpack when it loads a given file, for example, compile JSX to plain JS and ES5 to ES6 or SCSS to CSS.
+
+2. Install babel-core@6.25.0 (babel that works with webpack as apposed to the command line version we installed earlier).  Also install babel-loader@7.1.1 which is a webpack plugin that teaches webpack to run babel when it sees certain files.
+
+3. In the webpack.config.js file, add another module property, module.rules (for more details see https://webpack.js.org/configuration/module/), which is an array of Rules (duh).
+
+4. The first rule is for compiling our JSX - here the loader is as described above.  The test is what files we want to run the loader against.  The test value is a regular expression - in this expression, we're looking for .js files - the $ indicates that there are no other characters after the 'js'.  The '.' has special meaning and therefore is escaped with a back-slash.  The exclude property lists that files you want to excluded, and this case all the files in the node_modules folder.
+```
+module: {
+    rules: [{
+        loader: 'babel-loader',
+        test: /\.js$/,
+        exclude: /node_modules/
+    }]
+}
+```
+
+5. To get babel to use the 'presets' we used on the command line you need to use a RC file - .babelrc.  This is a JSON file in which we include the presets array.
+
+6. Now we can remove the "createElement" with some actual JSX - simple 'p' tag, and the HTML will be converted correctly.
+
+7. Right now the bundle.js file is huge, but will be reduced significantly when we learn to build for production - later.
+
+## One Component Per File
+
+1. At this point, Andrew is deleted person.js and utils.js - I moved these to old-versions.
+
+2. 
