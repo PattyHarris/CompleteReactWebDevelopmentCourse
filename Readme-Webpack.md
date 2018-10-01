@@ -249,4 +249,64 @@ module: {
 
 1. At this point, Andrew is deleted person.js and utils.js - I moved these to old-versions.
 
+2. We'll be taking the old app.js code (now in the playground) and cutting it up into components.  To start, we'll take the whole file and copy it into app.js to make sure the old code still works.  Remove the User component code we had created previously.
+
+3. Create the components folder into which we will put all the components, starting with AddOption.  
+a. Copy the component to the new file.
+b. Add the import 'react'
+c. Add 'export default' in front of the class definition, e.g. export default class AddOption.....
+d. In app.js, import the component, e.g. import AddOption from './component/AddOption' - note that we don't need {} since we importing the default AND webpack is smart enough to look for .js so you don't need to specify 'AddOption.js' in the path.  
+
+4. Repeat the above for the Options component.
+Challenge is to add the Header and Action components.
+For Options, we need to move the import from app.js to Options, changing the path.
+
+5. Last challenge is to make a separate file for IndecisionApp.
+
+## Source Maps with Webpack
+
+1. To enable debugging, there's a "devtool"  property you can add to your webpack.config.js file.  This takes a string that can help with development or production - see the docs at webpack.js.org.
+
+2. We're going to use the development option, "cheap-module-eval-source-map".  After this property is added, webpack has to be re-started (e.g. restart the build terminal command).  To test this property, add a console.log(someUnknownVariable) - without the devtool addition, the exception points to bundle.js (which is the ES5 + webpack code).  With the devtool property, the exception points to the line of code in our original source file.
+
+## Webpack DevServer
+
+1. Webpack DevServer is similar to live-server, where the later is a more generic server.  We'll be switch to the webpack DevServer.
+
+2. Install the server locally so we can run it as a script in package.json.
+```
+> npm install webpack-dev-server@2.5.1
+```
+
+3. Setup the server in webpack.config.js - the only property we will use is the "contentBase" property which tells the server where to find our files - e.g. our "public" folder.  We did the same thing when we setup live-server in package.json, where we specified the public folder there.  The devServer is an object and the path needs to be an absolute path - which is already figured out for the path output.
+```
+devServer: {
+    contentBase: path.join(__dirname, 'public')
+}
+```
+
+4. To configure a script to run the server, package.json is changed quite a bit:
+a. Remove the build-babel completely
+b. The build script no longer needs the "--watch" on the webpack command.
+c. Add
+```
+"dev-server": "webpack-dev-server"
+```
+
+5. Run the server:
+```
+> yarn run dev-server
+```
+
+As part of the output, it show where the server is running from, e.g. "Project is running at http://localhost:8081/" and where the it retrieved the code.  From Chrome, use the localhost given to run the code (manually) - doesn't seem to launch as with live-server...
+
+6. This server is faster since it generates a new bundle.js as needed and stores it in memory.  If you remove the bundle.js file, webpack will generate a new one, but keeps it in memory.  To regenerate the bundle.js (e.g. for production),
+```
+> yarn run build
+```
+
+## ES6 Class Properties
+
+1. We'll be installing a babel plugin that will allow us to add the ES6 features that allow for class properties.  The plugin also removes the need for the class constructor and the binding of methods.  Recall that babel basically compiles everything into a ES5 format that all browsers understand.
+
 2. 
