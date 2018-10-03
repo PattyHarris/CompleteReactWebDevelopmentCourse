@@ -309,4 +309,50 @@ As part of the output, it show where the server is running from, e.g. "Project i
 
 1. We'll be installing a babel plugin that will allow us to add the ES6 features that allow for class properties.  The plugin also removes the need for the class constructor and the binding of methods.  Recall that babel basically compiles everything into a ES5 format that all browsers understand.
 
-2. 
+2. From the babel website (docs->plugins) - recall this is where we installed presets (env and react).  In this case, we're going to use an "experimental preset", one that is at Stage 2, but has been there for some time: "transform-class-properties"  To install (or npm install...)
+```
+yard add babel-plugin-transform-class-properties@6.24.1
+```
+
+3. Configure the plugin in .babelrc - this currently holds an array of "presets", which are groups of plugins.  To add an individual plugin, add a "plugins" array.  And since it's a plugin,  the "plugin" prefix is not needed:
+```
+"plugins": [
+    "transform-class-properties"
+]
+```
+
+4. To illustrate the difference between the old and new class syntax, see the classes below.  Note that for the new syntax, no constructor is needed and no type is given for the variable "name".  These are key/value pairs, e.g. name = 'Mike'.   Also, no "this" is need to preface the variable "name":  To eliminate method binding, an arrow function is used - recall that arrow functions don't have their own this binding, but use the "this" binding of the parent scope.
+```
+// Old
+class OldSyntax {
+    constructor() {
+        this.name = "Mike";
+        this.getGreeting = this.getGreeting.bind(this);
+    }
+    getGreeting() {
+        return 'Hi. My name is ${this.name}.';
+    }
+}
+const oldSyntax = new OldSyntax();
+console.log(oldSyntax);
+
+// Here, an error will be thrown since "name" is no longer bound if we didn't
+// bind above:
+const getGreeting = oldSyntax.getGretting;
+console.log(getGreeting());
+
+// New
+class NewSyntax {
+    name = "Jen";
+    getGreeting = () => {
+        return 'Hi. My name is ${this.name}.';        
+    }
+}
+const newSyntax = NewSyntax();
+const getNewGreeting = newSyntax.getGreeting();
+console.log(getNewGreeting());
+```
+
+5. To start implementing this new class definition, in AddOption.js, move the state definition outside of the constructor, removing the prefacing "this".   Convert handleAddOption to an arrow function which means the constructor can be removed completely.
+
+6. Challenge is to rework IndecisionApp in the same manner as AddOption, re-organizing so that all event handlers appear before the React specific methods - note that the React methods cannot be modified in this same way....13:52

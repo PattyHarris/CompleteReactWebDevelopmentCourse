@@ -9,20 +9,70 @@ import Options from './Options';
 
 export default class IndecisionApp extends React.Component {
 
-    constructor(props) {
-        super(props)
+    state = {
+        options: []
+    };
 
-        this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-        this.handleDeleteOption = this.handleDeleteOption.bind(this);
-        this.handlePick = this.handlePick.bind(this);
-        this.handleAddOption = this.handleAddOption.bind(this);
+    //--------------------------------------
+    // Event handlers
+    //--------------------------------------
 
-        this.state = {
-            options: []
-        };
-    }
+    // Callback function used to remove all the options.  This also uses
+    // the simplified version of the arrow function to return an object -
+    // when returning an object, you need to enclose the object in (),
+    // e.g. ({ object })
+    handleDeleteOptions = () => {
+        this.setState( () => ({  options: [] }))
+    };
 
+    // Delete a single option.  To delete the option, setState will once again
+    // return an object using the shorthand notation.  Filter is used to return
+    // a new array minus the option we've removed.
+    handleDeleteOption = (optionToRemove) => {
+        // Don't forget - setState must return an object...and for record keeping, the following
+        // is simplified again since the return is a single statement.
+        // this.setState( (prevState) => ({
+        //     options: prevState.options.filter( (option) => {
+        //         return optionToRemove !== option;
+        //     })
+        // }))
+        this.setState( (prevState) =>  ({
+            options: prevState.options.filter( (option) => optionToRemove !== option)
+        }));
+    };
+
+    // Callback function to randomly pick an option
+    handlePick = () => {
+        const randomNumber = Math.floor(Math.random() * this.state.options.length);
+        const option = this.state.options[randomNumber];
+    };
+
+    // Callback function that also takes a parameter.  Note the use of
+    // concat instead of push, since we can't change state directly - we
+    // need to create a new array.
+    handleAddOption = (option) => {
+
+        // Check for empty string, returning the error back to Add Option.
+        if (!option) {
+            return 'Enter valid value to add item.'
+        }
+        else if (this.state.options.indexOf(option) > -1) {
+            // Make sure the string is unique in the array.
+            return 'This option already exists.'
+        }
+
+        // Uses the simplified arrow function returning an object: ({})
+        this.setState( (prevState) => ({
+                options: prevState.options.concat([option])
+            }) );
+    };
+
+    // End event handlers
+
+    //--------------------------------------
     // Lifecycle methods.....
+    //--------------------------------------
+
     componentDidMount() {
         console.log('componentDidMount: fetching data');
 
@@ -77,56 +127,7 @@ export default class IndecisionApp extends React.Component {
         console.log('componentWillUnmount');
     }
 
-
-    // Callback function used to remove all the options.  This also uses
-    // the simplified version of the arrow function to return an object -
-    // when returning an object, you need to enclose the object in (),
-    // e.g. ({ object })
-    handleDeleteOptions() {
-        this.setState( () => ({  options: [] }))
-    }
-
-    // Delete a single option.  To delete the option, setState will once again
-    // return an object using the shorthand notation.  Filter is used to return
-    // a new array minus the option we've removed.
-    handleDeleteOption(optionToRemove) {
-        // Don't forget - setState must return an object...and for record keeping, the following
-        // is simplified again since the return is a single statement.
-        // this.setState( (prevState) => ({
-        //     options: prevState.options.filter( (option) => {
-        //         return optionToRemove !== option;
-        //     })
-        // }))
-        this.setState( (prevState) =>  ({
-            options: prevState.options.filter( (option) => optionToRemove !== option)
-        }));
-    }
-
-    // Callback function to randomly pick an option
-    handlePick() {
-        const randomNumber = Math.floor(Math.random() * this.state.options.length);
-        const option = this.state.options[randomNumber];
-    }
-
-    // Callback function that also takes a parameter.  Note the use of
-    // concat instead of push, since we can't change state directly - we
-    // need to create a new array.
-    handleAddOption(option) {
-
-        // Check for empty string, returning the error back to Add Option.
-        if (!option) {
-            return 'Enter valid value to add item.'
-        }
-        else if (this.state.options.indexOf(option) > -1) {
-            // Make sure the string is unique in the array.
-            return 'This option already exists.'
-        }
-
-        // Uses the simplified arrow function returning an object: ({})
-        this.setState( (prevState) => ({
-                options: prevState.options.concat([option])
-            }) );
-    }
+    // End lifecycle methods
 
     render() {
 

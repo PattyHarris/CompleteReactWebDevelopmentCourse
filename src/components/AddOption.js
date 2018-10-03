@@ -2,16 +2,11 @@ import React from 'react';
 
 export default class AddOption extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.handleAddOption = this.handleAddOption.bind(this);
-
-        this.state = {
-            error: undefined
-        }
+    state = {
+        error: undefined
     }
 
-    handleAddOption (e)  {
+    handleAddOption = (e)  => {
         // Prevents full page refresh.
         e.preventDefault();
 
