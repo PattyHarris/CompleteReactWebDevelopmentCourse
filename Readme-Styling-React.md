@@ -44,4 +44,32 @@ import './styles/styles.css';
 ```
 NOTE: this import is very inefficient and will be changed later.
 
-7. Next will setup SCSS:
+7. Next will setup SCSS - see sass-lang.com.  From the "Learn SASS" and then "Variables" menu,  there's examples of the different usages of SCSS and SASS, e.g. {} and ";" as opposed to no {} and no ";".  This class will be using SCSS - e.g. {} and ";".
+
+8. The file style.css is changed to style.scss and in the webpack.config.js, change the test for "css" to "scss".
+In the styles.scss file, add the variable for "brand-color" - now the simple SCSS has the following code:
+```
+$brand-color: blue;
+
+* {
+    color: $brand-color;
+}
+```
+9. For SCSS, we need another loader and compiler (as we did with babel and babel-core):
+```
+yarn add sass-loader@6.0.6 node-sass@4.5.3
+```
+And then in webpack.config.js, add the new loader:
+```
+{
+    test: /\.scss$/,
+    use: [
+        'style-loader',
+        'css-loader',
+        'sass-loader'
+    ]
+}
+```
+With these changes in place, the font is blue.
+
+## Architecture and Header Styles
