@@ -73,3 +73,60 @@ And then in webpack.config.js, add the new loader:
 With these changes in place, the font is blue.
 
 ## Architecture and Header Styles
+
+1. As with the components, we will break up the styles into different files, starting with "base".
+NOTE: "partial" SCSS files begin with "_".  When the partial is imported, you leave off the extension and the underscore, e.g. to import _base.scss in the "base" folder:
+```
+@import 'base/base'
+```
+
+2.  Inside _base.scss, we set up a number of "base" type styles, including fonts.
+
+3. In this course we will use "rem" instead of "px" since "rem" has better accessibility.  To convert rem's into base 10, we set a global font-size to 62.5%.   For example, if 1 rem = 16px, 16*.625 = 10 - so we end up using a base 10 system.  Likewise, 2.2 rem's converts to 22 px.  Setting the body font-size to 1.6 rem = 16px.
+
+4. Add a "components" folder to the "styles" folder where all the SCSS files per component will reside, starting with the header file (partial file) - it will need to be imported as with the base partial.
+
+5. Add the header style to the header component div tag - recall that we need to use "className" in JSX.
+
+6. Instead of using nested selectors like this:
+```
+.header {
+    h1 {
+
+    }
+}
+```
+We will use separate selectors using BEM - block element modifier - notation, e.g. .header__title (note the double underscore) - here we're modifying an element of the header bloc (see getbem.com for more information):
+e.g.
+```
+.header {
+
+}
+.header__title {
+
+}
+```
+## CSS Reset
+
+1. All browsers have a different set of default values.  If we don't reset them, they will behave differently.  To fix that, we will use a plugin, in this case, Normalize.css (see https://necolas.github.io/normalize.css/):
+```
+> yarn add normalize.css@7.0.0
+```
+
+2. Use use the normalize.css module, we need to make a couple of changes:
+a. Import the file from the node_modules folder in app.js - note that it's imported BEFORE the styles file.
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import 'normalize.css/normalize.css';
+import './styles/styles.scss';
+
+```
+b. We need to fix our webpack.config.js since we're currently only allowing for .scss files.  If we change the "test" to "/\.s?css$/" the first "s" is optional, allowing for both .scss and .css files.
+
+## Theming with Variables
+
+1. Here we're going to break out common values that are used all over the application - for example hex color codes and common spacing values (e.g. 1.6rem).  The variables will be located in a new file /base/_settings.scss.
+
+2.
