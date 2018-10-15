@@ -1,0 +1,9 @@
+/* Centers the content
+    margin: 0 auto -> 0 on top and bottom, left and right are divided by
+    the remaining width.
+*/
+.container {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 0 $m-size;
+}

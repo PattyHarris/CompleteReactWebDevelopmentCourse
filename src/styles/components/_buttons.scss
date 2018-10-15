@@ -1,0 +1,41 @@
+/* Note that the width means that the button takes up the
+   entire container, which we set to 60%.
+*/
+.big-button {
+    background: $purple;
+    border: none;
+    border-bottom: .6rem solid darken($purple, 10%);
+    color: white;
+    font-weight: bold;
+    font-size: $l-size;
+    margin-bottom: $xl-size;
+    padding: 2.4rem;
+    width: 100%;
+}
+
+.big-button:disabled {
+    opacity: .5;
+}
+
+/* Smaller purple button - I don't think this class
+   name is a good one - should be something like
+   med-button or med-purple-button.
+ */
+ .button {
+     background: $purple;
+     border: none;
+     border-bottom: .3rem solid darken($purple, 10%);
+     color: white;
+     font-weight: 500;
+     padding: $s-size;
+ }
+
+/* BEM: block element modifier - here we're adding some modifications
+   to the button (above) block.  The naming convention is blockName--modifierName
+ */
+ .button--link {
+     background: none;
+     border: none;
+     color: $off-white;
+     padding: 0;
+ }

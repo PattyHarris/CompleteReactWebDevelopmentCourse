@@ -129,4 +129,52 @@ b. We need to fix our webpack.config.js since we're currently only allowing for 
 
 1. Here we're going to break out common values that are used all over the application - for example hex color codes and common spacing values (e.g. 1.6rem).  The variables will be located in a new file /base/_settings.scss.
 
-2.
+2. Import the new file _settings.scss as the first import in styles.scss.  
+
+3. First variables added were for the hex-colors, $off-white and $off-black.
+Challenge is to add a new variable, m-size (for medium size) as we had done for the $off-black and $off-white colors.
+
+4. Create a _container.scss to center all the content on the screen - this was put in the "components" folders - seems like this should have gone in the base folder....
+
+5. In the Header component, we only want to center the text and not the blue bar behind it - we have to add another div tag that will use the "container" class.  Repeat this same thing in the IndecisionApp component to center everything except the OptionModal component.
+
+6. Challenge is to create a new variable "dark-blue" that will change the body background color - here we just needed to add a background-color to the body element defined in _base.scss....
+
+## Big Buttons and Options List
+
+1. Styling the big button - add a new file under components - _buttons.scss with a class big-button.  
+The purple color is added to _styles.scss.   In the big-buttom class, we use the SCSS function "darken" to add a darker border to the bottom of the buttom to add a 3-D effect.  For documentation, search for "sass reference functions".  See the list of HSL functions (Hue Saturation Lightness).
+
+2. To make the button look disabled, we use the built in "disabled" class and change the opacity:
+```
+.big-button:disabled {
+    opacity: .5;
+}
+```
+
+3. To add the pointer to enabled buttons and the default cursor to disabled buttons, the following was added to the _base.scss:
+```
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: default;
+}
+```
+
+4. Using the BEM naming convention, we added a modifier to the .button class - in this case, the modifier name is attached to the block (in this case "button", which is a poorly named class) by 2 dashes, e.g. .button--link.   To use the latter modifier class, see this usage in the Options component:
+```
+<button
+    className="button button--link"
+    onClick={props.handleDeleteOptions}
+>
+    Remove All
+</button>
+
+```
+## Styling the Options List
+
+1. To handle styling the Options list, add a new file _widget.scss in the components folder and import as required.
+
+2
