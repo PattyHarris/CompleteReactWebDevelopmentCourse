@@ -1,0 +1,52 @@
+/* Target the "div" that is a direct descendant of the ReactModalPortal
+   class - note that to find this class, you need to use the debug console...
+   Using opacity of 0 means that the modal won't show initially - a
+   transition will be used to gradually make the modal appear.
+ */
+.ReactModalPortal > div {
+    opacity: 0;
+}
+
+/* Transition the modal - the property we will transition is
+   opacity, over 200ms, using the ease-in-out function.
+*/
+.ReactModalPortal .ReactModal__Overlay {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    transition: opacity 200ms ease-in-out;
+}
+
+/* Set the opacity to 1 using the following modifier.
+*/
+.ReactModalPortal .ReactModal__Overlay--after-open {
+    opacity: 1;
+}
+
+.ReactModalPortal .ReactModal__Overlay--before-close {
+    opacity: 0;
+}
+
+/* This overrides react-modal's content styling and is
+   used in the "className" property.
+ */
+ .modal {
+     background: $light-blue;
+     color: white;
+     max-width: 30rem;
+     outline: none;
+     padding: $l-size;
+     text-align: center;
+ }
+
+.modal__title {
+    margin: 0 0 $m-size 0;
+}
+
+.modal__body {
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 0 0 $l-size 0;
+    word-break: break-all;
+}

@@ -177,4 +177,118 @@ button:disabled {
 
 1. To handle styling the Options list, add a new file _widget.scss in the components folder and import as required.
 
-2
+2. To test and use the initial widget-header style, the Options component button is moved into it's own 'div' tag along with a new 'H3' tag.
+
+3. To get the "Your Options" and "Remove All"  to appear on the same line and pushed to the left and right respectively, we use flexbox.  To do this, 2 properties are needed, display=flex and justify-content=space-between, where in the latter, all extra space is distributed evenly between the 2 elements:
+```
+    display: flex;
+    justify-content: space-between;
+```
+
+4. Challenge is to add a element selector to reduce the amount of space around the H3 header element used in the Options component.  Using the BEM notation (block is header, element is title):
+```
+.header__title {
+    margin: 0;
+}
+```
+
+5. The background color for the widget style is added to the IndecisionApp component around the Options and AddOption components so that those entire blocks are the light blue color - although "blue" looks more purple to me.
+
+6. Challenge is to style the message text that says "Please add an option to get started!":
+a. Create a widget element selector (message) and use it on the "p" tag.
+b. Set the color to $off-white
+c. No margin
+d. Use a padding of $l-size.
+e. Center the text - e.g. text-align=center
+f. Set the bottom border to a 1px solid border - color is a lighted version of the $light-blue (10% lighter).
+
+
+## Styling the Option Item
+
+1. Add a new file to the components folder, _option.scss to hold all the styles for the Option component - that includes the text and remove button.  In the option block, like we did previously, we'll use "flex" to evenly distribute the space.
+
+2. To add a count number before each item in the list, map function in the Options component is modified to use the "index" parameter - then use the index + 1 as a new prop to the Option component.  Then in the Option component, place the text in a "p" tag with the count prop.
+
+3. To handle the form (text, edit box, and button), add a new partial file _add-option.scss.
+
+4. The input box uses flex and resizes with the window size, the button size remains the same.
+
+5. Note: in the comments, there's an issue with text that's too long for the input - it will override the text area.  This solution was applied to the option__text style:
+```
+{
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 80%;
+}
+```
+
+6. To make the input take up all available space:
+```
+.add-option__input {
+    flex-grow: 1;
+}
+```
+
+7. To add a border just to the bottom, first set the border to "none" and then style the border bottom.
+
+## Styling React-Modal
+
+1. To style this third party code, Andrew uses the Google debug to see what classes are used by the react-modal component.  We'll be modifying these classes to make the modal look like we want.
+
+2. Create a new file _modal.scss in the components folder and import as usual.  The first class targeted is the ReactModalPortal.  Changing the opacity to 0 allows us to transition the modal's appearance gradually - that is, a opacity=0 means it doesn't initially appear....
+
+3. The transition occurs in the ReactModal__Overlay style where we transition using the opacity property:
+```
+.ReactModalPortal .ReactModal__Overlay {
+    transition: opacity 200ms ease-in-out;
+}
+```
+
+We set the opacity to 1 in the modifier ReactModal__Overlay--after-open - note again you can see all these classes once the modal is shown.  We're modifying the existing class styles.
+```
+.ReactModalPortal .ReactModal__Overlay--after-open {
+    opacity: 1;
+}
+```
+
+4. To modify how the modal closes, we first added another property to the modal, closeTimeoutMS and set it to 4000 (e.g. 4 seconds) so we could see the classes that are available while the modal is closing.  We then set the latter property to 200 and added to our styles the ReactModal__Overlay--before-close to set the opacity back to 0:
+```
+ReactModalPortal .ReactModal__Overlay--before-close {
+    opacity: 0;
+}
+```
+
+5. To modify the contents of the react-modal, use the property "className" - e.g. here we define a new class "modal":
+```
+<Modal
+    isOpen={!!props.selectedOption}
+    onRequestClose={props.handleClearSelectedOption}
+    contentLabel="Selected Option"
+    closeTimeoutMS={200}
+    className="modal"
+>
+
+```
+
+This gets a bit complicated since I'm not sure who could really easily figure this out...anyway, now that we've replaced the styling, we have to go back to the overlay override, and add some positioning styling using flex (top 3 styling attributes are flex):
+```
+.ReactModalPortal .ReactModal__Overlay {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    transition: opacity 200ms ease-in-out;
+}
+```
+
+At this point, you end up with a tiny dialog in the middle of the screen with text centered.
+
+6. The issue with word break is addressed by Andrew using word-break=break all.  This fixes the issue in the dialog and in the options list (see option__text)
+```
+modal__body {
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 0 0 $l-size 0;
+    word-break: break-all;
+}
+```
+## Mobile Considerations

@@ -1,7 +1,14 @@
+/* Files are listed alphabetically, with the exception
+   being the settings partial which must appear first.
+*/
+
 @import './base/settings';
 @import './base/base';
 
+@import './components/_add-option';
 @import './components/buttons';
 @import './components/container';
 @import './components/header';
+@import './components/modal';
+@import './components/option';
 @import '/components/widget';
