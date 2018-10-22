@@ -318,3 +318,9 @@ To test this, in the console, select the device toolbar before you make this cha
 ```
 
 4. Challenge is to correct the bottom margin in the header and button partial styles so that for smaller devices the bottom margin is the $m-size instead of the $l-size - e.g. add the media query to those files as we did above.
+
+## Bonus Section: Favicon
+
+1. This is the icon that appears next to the website name on the browser tab.  The icon is in the resources for this section.  Copy the PNG to a new folder "images" in the "public" folder of this project.
+
+2. A link tag is added to index.html that specifies the relationship (e.g. "rel"), type, and href for the png.  Refresh the page, and the icon should then appear.
