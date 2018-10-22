@@ -292,3 +292,29 @@ modal__body {
 }
 ```
 ## Mobile Considerations
+
+1. To handle mobile, in index.html, we added metadata to set the viewport.
+```
+<meta name="viewport" content="key=value, otherkey=othervalue,..">
+```
+
+The content key/value is width=device-width which will override the iOS default of 980 pixels and the Android default of about 800 pixels.  This tells the viewport to use the devices actual width.
+```
+<meta name="viewport" content="width=device-width, initial-scale=1">
+```
+
+To test this, in the console, select the device toolbar before you make this change, selecting one of the iPhone (e.g. iPhone 6).  Then add this metadata, and you will see the UI scale appropriately.
+
+2. We will also tweak the UI to remove some spacing for mobile and in the form, make the edit box take up the entire width with the button below the edit box, also taking up the entire width.
+
+3. In the add-option styles, add the media query (a CSS feature) with the condition of min-width - meaning that the following styles apply to all widths greater than the min-width value.  In conjunction with this media query, we added the default flex-direction=column to the .add-option style (e.g. "row" is the default, but adding this property specifically allows us to override it in the media query and set it back to row).
+```
+/* For large devices */
+@media (min-width: 45rem) {
+    .add-option {
+        flex-direction: row;
+    }
+}
+```
+
+4. Challenge is to correct the bottom margin in the header and button partial styles so that for smaller devices the bottom margin is the $m-size instead of the $l-size - e.g. add the media query to those files as we did above.

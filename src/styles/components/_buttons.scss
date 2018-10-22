@@ -8,7 +8,7 @@
     color: white;
     font-weight: bold;
     font-size: $l-size;
-    margin-bottom: $xl-size;
+    margin-bottom: $m-size;
     padding: 2.4rem;
     width: 100%;
 }
@@ -38,4 +38,13 @@
      border: none;
      color: $off-white;
      padding: 0;
+ }
+
+/* For large devices, use the large bottom margin.  For small
+   devices, the margin bottom is a medium size.
+ */
+ @media(min-width: $desktop-breakpoint) {
+     .big-button {
+         margin-bottom: $xl-size;
+     }
  }
